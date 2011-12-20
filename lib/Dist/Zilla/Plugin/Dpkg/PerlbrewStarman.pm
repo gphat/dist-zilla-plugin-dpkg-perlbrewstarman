@@ -48,10 +48,7 @@ APPUSER={$package_name}
 
 PSGIAPP="script/$APP.psgi"
 
-PERL_VERSION="5.14.2"
-PERLBREW_PERL="perl-$PERL_VERSION-$APP"
-PERLBREW_VERSION="0.28"
-PERLBREW_PATH="$APPDIR/perl5/perlbrew/bin:$PRG_SITE_HOME/perl5/perlbrew/perls/perl-$PERL_VERSION-$APP/bin"
+PERLBREW_PATH="$APPDIR/perlbrew/bin"
 PERLBREW_ROOT="$APPDIR/perl5/perlbrew"
 
 DAEMON=`which starman`
@@ -193,7 +190,7 @@ config/* srv/{$package_name}/config
 lib/* srv/{$package_name}/lib
 root/* srv/{$package_name}/root
 script/* srv/{$package_name}/script
-perlbrew/* srv/{$package_name}
+perlbrew/* srv/{$package_name}/perlbrew
 '
 );
 
@@ -247,16 +244,17 @@ case "$1" in
         fi
 
         # Setup the perlbrew
-        if [ ! -e /srv/$PACKAGE/.perlbrew ]; then
-            mkdir /srv/$PACKAGE/.perlbrew
-            echo "source ~/perl5/perlbrew/etc/bashrc" > /srv/$PACKAGE/.profile
+        # if [ ! -e /srv/$PACKAGE/.perlbrew ]; then
+        #     mkdir /srv/$PACKAGE/.perlbrew
+        #     echo "source ~/perl5/perlbrew/etc/bashrc" > /srv/$PACKAGE/.profile
+        # 
+        #     echo "export PERLBREW_PERL=perl-5.14.2-$PACKAGE" > /srv/$PACKAGE/.perlbrew/init
+        #     echo "export PERLBREW_VERSION=0.28" >> /srv/$PACKAGE/.perlbrew/init
+        #     echo "export PERLBREW_PATH=/srv/$PACKAGE/perl5/perlbrew/bin:/srv/$PACKAGE/perl5/perlbrew/perls/perl-5.14.2-$PACKAGE/bin" >> /srv/$PACKAGE/.perlbrew/init
+        #     echo "export PERLBREW_ROOT=/srv/$PACKAGE/perl5/perlbrew" >> /srv/$PACKAGE/.perlbrew/init
+        # fi
+        chown -R $PACKAGE:adm /srv/$PACKAGE
 
-            echo "export PERLBREW_PERL=perl-5.14.2-$PACKAGE" > /srv/$PACKAGE/.perlbrew/init
-            echo "export PERLBREW_VERSION=0.28" >> /srv/$PACKAGE/.perlbrew/init
-            echo "export PERLBREW_PATH=/srv/$PACKAGE/perl5/perlbrew/bin:/srv/$PACKAGE/perl5/perlbrew/perls/perl-5.14.2-$PACKAGE/bin" >> /srv/$PACKAGE/.perlbrew/init
-            echo "export PERLBREW_ROOT=/srv/$PACKAGE/perl5/perlbrew" >> /srv/$PACKAGE/.perlbrew/init
-            chown -R $PACKAGE:adm /srv/$PACKAGE
-        fi
 
         # Make sure this user owns the directory
         chown -R $PACKAGE:adm /srv/$PACKAGE
