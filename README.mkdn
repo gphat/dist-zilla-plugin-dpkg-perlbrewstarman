@@ -8,7 +8,7 @@ version 0.01
 
 # SYNOPSIS
 
-  [Dpkg::PerlbrewStarman]
+  #  [Dpkg::PerlbrewStarman]
 
 # DESCRIPTION
 
@@ -25,6 +25,14 @@ Starman.  It makes the following assumptions:
 - psgi file is in script and is named $packagename.psgi
 - Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)
 - Nginx config is in config/nginx/$packagename.conf
+
+This module provides defaults for the following attribute:
+
+- default_template_default
+- init_template_default
+- install_template_default
+- postinst_template_default
+- postrm_template_default
 
 # AUTHOR
 
