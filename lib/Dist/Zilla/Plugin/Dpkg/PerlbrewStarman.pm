@@ -46,12 +46,13 @@ APPDIR="/srv/$APP"
 APPUSER={$package_name}
 
 PSGIAPP="script/$APP.psgi"
+PIDFILE="/var/run/$APP.psgi"
 
 PERLBREW_PATH="$APPDIR/perlbrew/bin"
 PERLBREW_ROOT="$APPDIR/perl5/perlbrew"
 
 DAEMON=`which starman`
-DAEMON_ARGS="-Ilib $PSGIAPP --daemonize --user $APPUSER --preload-app --workers 5 --pid /var/run/${APP}.pid --port 5002 --host 127.0.0.1 --error-log /var/log/$APP/error.log"
+DAEMON_ARGS="-Ilib $PSGIAPP --daemonize --user $APPUSER --preload-app --workers 5 --pid $PIDFILE --port 5002 --host 127.0.0.1 --error-log /var/log/$APP/error.log"
 '
 );
 
