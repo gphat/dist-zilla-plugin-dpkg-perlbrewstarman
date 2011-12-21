@@ -7,7 +7,7 @@ extends 'Dist::Zilla::Plugin::Dpkg';
 
 =head1 SYNOPSIS
 
-  [Dpkg::PerlbrewStarman]
+  #  [Dpkg::PerlbrewStarman]
   
 =head1 DESCRIPTION
 
@@ -33,6 +33,22 @@ Starman.  It makes the following assumptions:
 =item Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)
 
 =item Nginx config is in config/nginx/$packagename.conf
+
+=back
+
+This module provides defaults for the following attribute:
+
+=over 4
+
+=item default_template_default
+
+=item init_template_default
+
+=item install_template_default
+
+=item postinst_template_default
+
+=item postrm_template_default
 
 =back
 

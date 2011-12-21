@@ -22,6 +22,9 @@ Starman.  It makes the following assumptions:
 - Starman is fronted by nginx
 - It's installed at /src/$packagename
 - Logs will be placed in /var/log/$packagename
+- psgi file is in script and is named $packagename.psgi
+- Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)
+- Nginx config is in config/nginx/$packagename.conf
 
 # AUTHOR
 
