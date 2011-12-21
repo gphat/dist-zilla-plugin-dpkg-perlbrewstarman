@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::Dpkg::PerlbrewStarman - Generate dpkg files for your perlbr
 
 # VERSION
 
-version 0.01
+version 0.02
 
 # SYNOPSIS
 
@@ -25,6 +25,10 @@ Starman.  It makes the following assumptions:
 - psgi file is in script and is named $packagename.psgi
 - Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)
 - Nginx config is in config/nginx/$packagename.conf
+- Your $packagename is setup in the services file so it can be used as a port
+- Your app can be preloaded
+- Your app only listens locally (nginx handles the rest)
+- You want 5 workers
 
 This module provides defaults for the following attribute:
 

@@ -1,10 +1,9 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+  - Add starman_port
 
 0.02 Dec 21 2011
-
-0.01 Dec 21 2011
 
 0.01
   - First version, released on an unsuspecting world.

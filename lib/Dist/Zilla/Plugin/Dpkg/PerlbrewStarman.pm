@@ -362,4 +362,16 @@ build:
 '
 );
 
+=attr starman_port
+
+The port to use for starman.
+
+=cut
+
+has 'starman_port' => (
+    is => 'ro',
+    isa => 'Str',
+    required => 1
+);
+
 1;
