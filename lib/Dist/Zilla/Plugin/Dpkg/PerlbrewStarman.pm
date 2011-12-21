@@ -43,7 +43,6 @@ has '+default_template_default' => (
 
 APP="{$package_name}"
 APPDIR="/srv/$APP"
-APPLIB="{$NAME}"
 APPUSER={$package_name}
 
 PSGIAPP="script/$APP.psgi"
@@ -72,12 +71,12 @@ has '+init_template_default' => (
 
 # Author: {$author}
 
+# Read configuration variable file if it is present
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
 DESC=$APP
 NAME=$APP
 SCRIPTNAME=/etc/init.d/$NAME
-
-# Read configuration variable file if it is present
-[ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 PATH=$PERLBREW_PATH:$PATH
 
