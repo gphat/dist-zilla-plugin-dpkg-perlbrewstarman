@@ -243,7 +243,7 @@ case "$1" in
         fi
 
         # Setup the perlbrew
-        if [ ! -e /srv/$PACKAGE ]; then
+        #if [ ! -e /srv/$PACKAGE ]; then
         #     mkdir /srv/$PACKAGE/.perlbrew
         #     echo "source ~/perl5/perlbrew/etc/bashrc" > /srv/$PACKAGE/.profile
         # 
@@ -251,7 +251,7 @@ case "$1" in
         #     echo "export PERLBREW_VERSION=0.28" >> /srv/$PACKAGE/.perlbrew/init
         #     echo "export PERLBREW_PATH=/srv/$PACKAGE/perl5/perlbrew/bin:/srv/$PACKAGE/perl5/perlbrew/perls/perl-5.14.2-$PACKAGE/bin" >> /srv/$PACKAGE/.perlbrew/init
         #     echo "export PERLBREW_ROOT=/srv/$PACKAGE/perl5/perlbrew" >> /srv/$PACKAGE/.perlbrew/init
-        fi
+        #fi
         chown -R $PACKAGE:adm /srv/$PACKAGE
 
 
