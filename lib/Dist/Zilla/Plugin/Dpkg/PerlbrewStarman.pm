@@ -190,8 +190,7 @@ exit $?
 );
 
 has '+install_template_default' => (
-    default => 'prg_site.yml srv/prg-site
-config/* srv/{$package_name}/config
+    default => 'config/* srv/{$package_name}/config
 lib/* srv/{$package_name}/lib
 root/* srv/{$package_name}/root
 script/* srv/{$package_name}/script
