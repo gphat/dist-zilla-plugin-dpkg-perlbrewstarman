@@ -101,7 +101,6 @@ check_compile() \{
 
 _start() \{
 
-  export PRG_SITE_HOME=$PRG_SITE_HOME
   /sbin/start-stop-daemon --background --start --pidfile $PIDFILE --chdir $APPDIR --exec $DAEMON -- \
     $DAEMON_ARGS \
     || return 2
@@ -231,9 +230,9 @@ case "$1" in
         # fi
 
         # Symlink to the nginx config for the senvironment we`re in
-        if [ ! -e /etc/nginx/sites-available/$PACKAGE ]; then
-            ln -s /srv/$PACKAGE/config/nginx/$RUNNING_ENV.conf /etc/nginx/sites-available/$PACKAGE
-        fi
+        #if [ ! -e /etc/nginx/sites-available/$PACKAGE ]; then
+        #    ln -s /srv/$PACKAGE/config/nginx/$RUNNING_ENV.conf /etc/nginx/sites-available/$PACKAGE
+        #fi
 
         # Create user if it doesn`t exist.
         if ! id $PACKAGE > /dev/null 2>&1 ; then
