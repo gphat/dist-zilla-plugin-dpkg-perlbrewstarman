@@ -215,7 +215,7 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-PACKAGE=${package_name}
+PACKAGE={$package_name}
 
 case "$1" in
     configure)
