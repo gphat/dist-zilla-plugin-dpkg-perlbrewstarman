@@ -71,12 +71,12 @@ has '+init_template_default' => (
 
 # Author: {$author}
 
+DESC={$package_name}
+NAME={$package_name}
+SCRIPTNAME=/etc/init.d/$NAME
+
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
-
-DESC=$APP
-NAME=$APP
-SCRIPTNAME=/etc/init.d/$NAME
 
 PATH=$PERLBREW_PATH:$PATH
 
