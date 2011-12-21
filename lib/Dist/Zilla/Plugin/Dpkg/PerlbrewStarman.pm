@@ -28,6 +28,8 @@ Starman.  It makes the following assumptions:
 
 =item Logs will be placed in /var/log/$packagename
 
+=item psgi file is in script and is named $packagename.psgi
+
 =back
 
 =cut
