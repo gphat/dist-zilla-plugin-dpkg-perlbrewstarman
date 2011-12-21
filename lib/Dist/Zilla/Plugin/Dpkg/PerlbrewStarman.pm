@@ -30,6 +30,10 @@ Starman.  It makes the following assumptions:
 
 =item psgi file is in script and is named $packagename.psgi
 
+=item Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)
+
+=item Nginx config is in config/nginx/$packagename.conf
+
 =back
 
 =cut
@@ -227,15 +231,10 @@ case "$1" in
             ln -s /srv/$PACKAGE/config /etc/$PACKAGE
         fi
 
-        # Link to the appropriate config file based on the eiv
-        # if [ ! -e /srv/$PACKAGE/config/$PACKAGE.yml ]; then
-        #     ln -s /srv/$PACKAGE/config/labor.prg.com.$RUNNING_ENV.yml /srv/$PACKAGE/config/$PACKAGE.yml
-        # fi
-
         # Symlink to the nginx config for the senvironment we`re in
-        #if [ ! -e /etc/nginx/sites-available/$PACKAGE ]; then
-        #    ln -s /srv/$PACKAGE/config/nginx/$RUNNING_ENV.conf /etc/nginx/sites-available/$PACKAGE
-        #fi
+        if [ ! -e /etc/nginx/sites-available/$PACKAGE ]; then
+            ln -s /srv/$PACKAGE/config/nginx/$PACKAGE.conf /etc/nginx/sites-available/$PACKAGE
+        fi
 
         # Create user if it doesn`t exist.
         if ! id $PACKAGE > /dev/null 2>&1 ; then
