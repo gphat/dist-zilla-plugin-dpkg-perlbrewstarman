@@ -103,7 +103,7 @@ check_compile() \{
 
 _start() \{
 
-  /sbin/start-stop-daemon --background --start --pidfile $PIDFILE --chdir $APPDIR --exec starman -- \
+  /sbin/start-stop-daemon --background --start --pidfile $PIDFILE --chdir $APPDIR --exec $DAEMON -- \
     $DAEMON_ARGS \
     || return 2
 
