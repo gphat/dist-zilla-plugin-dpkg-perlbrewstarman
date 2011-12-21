@@ -80,6 +80,7 @@ SCRIPTNAME=/etc/init.d/$NAME
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 PATH=$PERLBREW_PATH:$PATH
+DAEMON=`which starman`
 
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh
