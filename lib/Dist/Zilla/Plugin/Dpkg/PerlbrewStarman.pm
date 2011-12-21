@@ -35,9 +35,9 @@ Starman.  It makes the following assumptions:
 =cut
 
 has '+default_template_default' => (
-    default => '# Defaults for prg-site initscript
-# sourced by /etc/init.d/prg-site
-# installed at /etc/default/prg-site by the maintainer scripts
+    default => '# Defaults for {$package_name} initscript
+# sourced by /etc/init.d/{$package_name}
+# installed at /etc/default/{$package_name} by the maintainer scripts
 
 #
 # This is a POSIX shell fragment
@@ -197,7 +197,7 @@ perlbrew/* srv/{$package_name}/perlbrew
 
 has '+postinst_template_default' => (
     default => '#!/bin/sh
-# postinst script for prg-site
+# postinst script for {$package_name}
 #
 # see: dh_installdeb(1)
 
