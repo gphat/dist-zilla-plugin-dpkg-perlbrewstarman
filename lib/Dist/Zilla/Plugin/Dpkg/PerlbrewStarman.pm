@@ -378,6 +378,6 @@ around '_generate_file' => sub {
     
     $_[2]->{starman_port} = $self->starman_port;
     $self->$orig(@_);
-}
+};
 
 1;
