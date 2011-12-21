@@ -51,7 +51,6 @@ PIDFILE="/var/run/$APP.psgi"
 PERLBREW_PATH="$APPDIR/perlbrew/bin"
 PERLBREW_ROOT="$APPDIR/perl5/perlbrew"
 
-DAEMON=`which starman`
 DAEMON_ARGS="-Ilib $PSGIAPP --daemonize --user $APPUSER --preload-app --workers 5 --pid $PIDFILE --port 5002 --host 127.0.0.1 --error-log /var/log/$APP/error.log"
 '
 );
@@ -80,6 +79,7 @@ SCRIPTNAME=/etc/init.d/$NAME
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 PATH=$PERLBREW_PATH:$PATH
+DAEMON=`which starman`
 
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh
@@ -243,7 +243,7 @@ case "$1" in
         fi
 
         # Setup the perlbrew
-        # if [ ! -e /srv/$PACKAGE/.perlbrew ]; then
+        if [ ! -e /srv/$PACKAGE ]; then
         #     mkdir /srv/$PACKAGE/.perlbrew
         #     echo "source ~/perl5/perlbrew/etc/bashrc" > /srv/$PACKAGE/.profile
         # 
@@ -251,7 +251,7 @@ case "$1" in
         #     echo "export PERLBREW_VERSION=0.28" >> /srv/$PACKAGE/.perlbrew/init
         #     echo "export PERLBREW_PATH=/srv/$PACKAGE/perl5/perlbrew/bin:/srv/$PACKAGE/perl5/perlbrew/perls/perl-5.14.2-$PACKAGE/bin" >> /srv/$PACKAGE/.perlbrew/init
         #     echo "export PERLBREW_ROOT=/srv/$PACKAGE/perl5/perlbrew" >> /srv/$PACKAGE/.perlbrew/init
-        # fi
+        fi
         chown -R $PACKAGE:adm /srv/$PACKAGE
 
 
