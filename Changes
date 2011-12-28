@@ -1,6 +1,8 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+
+0.04 Dec 28 2011
   - Fix typo in path name
 
 0.03 Dec 21 2011
