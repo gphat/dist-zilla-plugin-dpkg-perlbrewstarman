@@ -24,7 +24,7 @@ Starman.  It makes the following assumptions:
 
 =item Starman is fronted by nginx
 
-=item It's installed at /src/$packagename
+=item It's installed at /srv/$packagename
 
 =item Logs will be placed in /var/log/$packagename
 
