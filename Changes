@@ -1,6 +1,8 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+
+0.05 Jan 4 2012
   - Fix bits of the postrm that weren't removing correctly
 
 0.04 Dec 28 2011
