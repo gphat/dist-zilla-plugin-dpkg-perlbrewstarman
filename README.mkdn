@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::Dpkg::PerlbrewStarman - Generate dpkg files for your perlbr
 
 # VERSION
 
-version 0.03
+version 0.04
 
 # SYNOPSIS
 
@@ -20,7 +20,7 @@ Starman.  It makes the following assumptions:
 - XXX Perlbrew
 - Runs under [Starman](http://search.cpan.org/perldoc?Starman)
 - Starman is fronted by nginx
-- It's installed at /src/$packagename
+- It's installed at /srv/$packagename
 - Logs will be placed in /var/log/$packagename
 - psgi file is in script and is named $packagename.psgi
 - Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)

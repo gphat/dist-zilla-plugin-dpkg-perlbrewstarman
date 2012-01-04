@@ -305,14 +305,10 @@ PACKAGE={$package_name}
 case "$1" in
     purge)
         # Remove the config symlink
-        if [ -e /etc/$PACKAGE ]; then
-            rm /etc/$PACKAGE
-        fi
+        rm /etc/$PACKAGE
 
         # Remove the nginx config
-        if [ -e /etc/nginx/sites-available/$PACKAGE ]; then
-            rm /etc/nginx/sites-available/$PACKAGE
-        fi
+        rm /etc/nginx/sites-available/$PACKAGE
 
         # Remove the user
         userdel $PACKAGE || true
