@@ -1,6 +1,8 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+
+0.06 Jan 9 2012
   - Define APPLIB in defaults so restart works. (thanks Mike Eldridge)
 
 0.05 Jan 4 2012
