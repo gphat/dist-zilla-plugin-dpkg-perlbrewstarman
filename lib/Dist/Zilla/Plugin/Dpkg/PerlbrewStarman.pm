@@ -71,6 +71,7 @@ has '+default_template_default' => (
 
 APP="{$package_name}"
 APPDIR="/srv/$APP"
+APPLIB="/srv/$APP/lib"
 APPUSER={$package_name}
 
 PSGIAPP="script/$APP.psgi"
