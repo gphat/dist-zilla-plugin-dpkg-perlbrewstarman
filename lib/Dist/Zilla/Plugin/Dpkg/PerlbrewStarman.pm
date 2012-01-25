@@ -36,7 +36,7 @@ Starman.  It makes the following assumptions:
 
 =item Your app can be preloaded
 
-=item Your app only listens locally (nginx handles the rest)
+=item Your app only listens on localhost (nginx handles the rest)
 
 =item You want 5 workers
 
@@ -131,7 +131,7 @@ check_compile() \{
 _start() \{
 
   export {$package_shell_name}_HOME=$APPDIR
-  /sbin/start-stop-daemon --background --start --pidfile $PIDFILE --chdir $APPDIR --exec $DAEMON -- \
+  /sbin/start-stop-daemon --start --pidfile $PIDFILE --chdir $APPDIR --exec $DAEMON -- \
     $DAEMON_ARGS \
     || return 2
 
@@ -276,6 +276,10 @@ case "$1" in
             mkdir /var/log/$PACKAGE
             chown -R $PACKAGE:adm /var/log/$PACKAGE
         fi
+        
+        # Restart nginx. I dont see a specific upgrade step in debian for this
+        # so Im just doing it here
+        /etc/init.d/nginx restart
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

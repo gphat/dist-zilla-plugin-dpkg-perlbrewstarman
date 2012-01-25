@@ -1,6 +1,8 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+  - Remove --background from start-stop-daemon, starman's daemonize is enough
+  - Restart nginx after installation / upgrade
 
 0.07 Jan 20 2012
 
