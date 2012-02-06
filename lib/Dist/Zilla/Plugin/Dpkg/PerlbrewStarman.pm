@@ -60,6 +60,12 @@ This module provides defaults for the following attribute:
 
 =cut
 
+has '+conffiles_template_default' => (
+    default => '
+/etc/default/{$package_name}
+'
+);
+
 has '+default_template_default' => (
     default => '# Defaults for {$package_name} initscript
 # sourced by /etc/init.d/{$package_name}
