@@ -61,8 +61,7 @@ This module provides defaults for the following attribute:
 =cut
 
 has '+conffiles_template_default' => (
-    default => '
-/etc/default/{$package_name}
+    default => '/etc/default/{$package_name}
 '
 );
 
