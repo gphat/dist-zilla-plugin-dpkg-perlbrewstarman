@@ -137,7 +137,7 @@ check_compile() \{
 _start() \{
 
   export {$package_shell_name}_HOME=$APPDIR
-  /sbin/start-stop-daemon --start --pidfile $PIDFILE --chdir $APPDIR --exec $DAEMON -- \
+  /sbin/start-stop-daemon --start --background --pidfile $PIDFILE --chdir $APPDIR --exec $DAEMON -- \
     $DAEMON_ARGS \
     || return 2
 
