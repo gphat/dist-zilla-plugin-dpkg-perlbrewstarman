@@ -237,8 +237,6 @@ has '+postinst_template_default' => (
 
 set -e
 
-. /usr/share/debconf/confmodule
-
 # summary of how this script can be called:
 #        * <postinst> `configure` <most-recently-configured-version>
 #        * <old-postinst> `abort-upgrade` <new version>

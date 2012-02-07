@@ -1,8 +1,7 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
-  - Add config file to conffiles
-  - Add init script to conffiles (per debian policy at http://www.debian.org/doc/debian-policy/ch-opersys.html)
+  - Remove sourcing of debconf, which is evidently code for "stop working"
   - Add restart of nginx
 
 0.07 Jan 20 2012
