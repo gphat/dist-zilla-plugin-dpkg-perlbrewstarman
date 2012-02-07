@@ -1,8 +1,9 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
-  - Restart nginx after installation / upgrade
   - Add config file to conffiles
+  - Add init script to conffiles (per debian policy at http://www.debian.org/doc/debian-policy/ch-opersys.html)
+  - Add restart of nginx
 
 0.07 Jan 20 2012
 

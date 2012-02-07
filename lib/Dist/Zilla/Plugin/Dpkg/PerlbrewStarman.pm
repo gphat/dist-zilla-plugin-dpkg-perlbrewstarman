@@ -46,6 +46,8 @@ This module provides defaults for the following attribute:
 
 =over 4
 
+=item conffiles_template_default
+
 =item default_template_default
 
 =item init_template_default
@@ -62,6 +64,7 @@ This module provides defaults for the following attribute:
 
 has '+conffiles_template_default' => (
     default => '/etc/default/{$package_name}
+/etc/init.d/{$package_name}
 '
 );
 
@@ -258,7 +261,7 @@ case "$1" in
             ln -s /srv/$PACKAGE/config /etc/$PACKAGE
         fi
 
-        # Symlink to the nginx config for the senvironment we`re in
+        # Symlink to the nginx config for the environment we`re in
         if [ ! -e /etc/nginx/sites-available/$PACKAGE ]; then
             ln -s /srv/$PACKAGE/config/nginx/$PACKAGE.conf /etc/nginx/sites-available/$PACKAGE
         fi
@@ -282,9 +285,11 @@ case "$1" in
             chown -R $PACKAGE:adm /var/log/$PACKAGE
         fi
         
-        # Restart nginx. I dont see a specific upgrade step in debian for this
-        # so Im just doing it here
-        /etc/init.d/nginx restart
+        if which invoke-rc.d >/dev/null 2>&1; then
+     		invoke-rc.d nginx restart
+     	else
+     		/etc/init.d/nginx restart
+     	fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
