@@ -260,7 +260,7 @@ case "$1" in
         fi
 
         # Symlink to the nginx config for the environment we`re in
-        if [ ! -e /etc/nginx/sites-available/$PACKAGE ]; then
+        if [ ! -h /etc/nginx/sites-available/$PACKAGE ]; then
             ln -s /srv/$PACKAGE/config/nginx/$PACKAGE.conf /etc/nginx/sites-available/$PACKAGE
         fi
 
