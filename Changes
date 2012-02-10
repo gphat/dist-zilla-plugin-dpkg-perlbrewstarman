@@ -1,6 +1,8 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+
+0.08 Feb 10 2012
   - Remove sourcing of debconf, which is evidently code for "stop working"
   - Remove --background from start-stop-daemon
   - Add restart of nginx
