@@ -48,6 +48,8 @@ This module provides defaults for the following attribute:
 
 =item conffiles_template_default
 
+=item control_template_default
+
 =item default_template_default
 
 =item init_template_default
@@ -65,6 +67,21 @@ This module provides defaults for the following attribute:
 has '+conffiles_template_default' => (
     default => '/etc/default/{$package_name}
 /etc/init.d/{$package_name}
+'
+);
+
+has '+control_template_default' => (
+    default => 'Source: {$package_name}
+Section: {$package_section}
+Priority: {$package_priority}
+Maintainer: {$author}
+Build-Depends: {$package_depends}
+Standards-Version: 3.8.4
+
+Package: {$package_name}
+Architecture: {$architecture}
+Depends: adduser {$package_binary_depends}
+Description: {$package_description}
 '
 );
 

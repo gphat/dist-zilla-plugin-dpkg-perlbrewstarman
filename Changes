@@ -1,6 +1,7 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+  - Override control file attribute to add a dependency on adduser
 
 0.08 Feb 10 2012
   - Remove sourcing of debconf, which is evidently code for "stop working"
