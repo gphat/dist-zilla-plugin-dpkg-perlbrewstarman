@@ -146,7 +146,7 @@ check_running() \{
 \}
 
 check_compile() \{
-  if ( cd $APPDIR ; perl -Ilib -M$APPLIB -ce1 ) ; then
+  if ( cd $APPLIB ; find -type f -name '*.pm' | xargs perl -c ) ; then
     return 1
   else
     return 0
