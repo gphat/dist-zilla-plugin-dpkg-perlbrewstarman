@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::Dpkg::PerlbrewStarman - Generate dpkg files for your perlbr
 
 # VERSION
 
-version 0.08
+version 0.09
 
 # SYNOPSIS
 
@@ -32,6 +32,7 @@ Starman.  It makes the following assumptions:
 This module provides defaults for the following attribute:
 
 - conffiles_template_default
+- control_template_default
 - default_template_default
 - init_template_default
 - install_template_default
