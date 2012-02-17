@@ -1,6 +1,7 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+  - Syntax check fix, which makes things restart properly.
   - Override control file attribute to add a dependency on adduser
 
 0.08 Feb 10 2012
