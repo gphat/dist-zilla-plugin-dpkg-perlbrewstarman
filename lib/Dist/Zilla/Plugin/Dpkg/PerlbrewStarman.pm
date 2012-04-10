@@ -5,7 +5,7 @@ use Moose::Util::TypeConstraints;
 
 extends 'Dist::Zilla::Plugin::Dpkg';
 
-enum 'WebServers', [qw(apache nginx)];
+enum 'WebServer', [qw(apache nginx)];
 
 #ABSTRACT: Generate dpkg files for your perlbrew-backed, starman-based perl app
 
@@ -26,7 +26,7 @@ Starman.  It makes the following assumptions:
 
 =item Runs under L<Starman>
 
-=item Starman is fronted by nginx
+=item Starman is fronted by nginx or apache
 
 =item It's installed at /srv/$packagename
 
@@ -36,11 +36,11 @@ Starman.  It makes the following assumptions:
 
 =item Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)
 
-=item Nginx config is in config/nginx/$packagename.conf
+=item Nginx config is in config/nginx/$packagename.conf or apache config is at config/apache/$packagename.conf
 
 =item Your app can be preloaded
 
-=item Your app only listens on localhost (nginx handles the rest)
+=item Your app only listens on localhost (nginx/apache handles the rest)
 
 =item You want 5 workers
 
@@ -251,10 +251,7 @@ perlbrew/* srv/{$package_name}/perlbrew
 );
 
 has '+postinst_template_default' => (
-    lazy => 1,
-    default => sub {
-        my $self = shift;
-        my $template = '#!/bin/sh
+    default => '#!/bin/sh
 # postinst script for {$package_name}
 #
 # see: dh_installdeb(1)
@@ -276,68 +273,44 @@ set -e
 PACKAGE={$package_name}
 
 case "$1" in
-configure)
+    configure)
 
-    # Symlink /etc/$PACKAGE to our package`s config directory
-    if [ ! -e /etc/$PACKAGE ]; then
-        ln -s /srv/$PACKAGE/config /etc/$PACKAGE
-    fi
-';
+        # Symlink /etc/$PACKAGE to our package`s config directory
+        if [ ! -e /etc/$PACKAGE ]; then
+            ln -s /srv/$PACKAGE/config /etc/$PACKAGE
+        fi
 
-    if($self->web_server eq 'apache') {
-        
-    } else {
-            $template .= '# Symlink to the nginx config for the environment we`re in
-if [ ! -h /etc/nginx/sites-available/$PACKAGE ]; then
-    ln -s /srv/$PACKAGE/config/nginx/$PACKAGE.conf /etc/nginx/sites-available/$PACKAGE
-fi
-';        
-    }
+        {$webserver_config_link}
 
-    $template .= '# Create user if it doesn`t exist.
-if ! id $PACKAGE > /dev/null 2>&1 ; then
-    adduser --system --home /srv/$PACKAGE --no-create-home \
-        --ingroup nogroup --disabled-password --shell /bin/bash \
-        $PACKAGE
-fi
+        # Create user if it doesn`t exist.
+        if ! id $PACKAGE > /dev/null 2>&1 ; then
+            adduser --system --home /srv/$PACKAGE --no-create-home \
+                --ingroup nogroup --disabled-password --shell /bin/bash \
+                $PACKAGE
+        fi
 
-# Setup the perlbrew
-echo "export PATH=~/perlbrew/bin:$PATH" > /srv/$PACKAGE/.profile
+        # Setup the perlbrew
+        echo "export PATH=~/perlbrew/bin:$PATH" > /srv/$PACKAGE/.profile
 
-# Make sure this user owns the directory
-chown -R $PACKAGE:adm /srv/$PACKAGE
+        # Make sure this user owns the directory
+        chown -R $PACKAGE:adm /srv/$PACKAGE
 
-# Make the log directory
-if [ ! -e /var/log/$PACKAGE ]; then
-    mkdir /var/log/$PACKAGE
-    chown -R $PACKAGE:adm /var/log/$PACKAGE
-fi
-';
+        # Make the log directory
+        if [ ! -e /var/log/$PACKAGE ]; then
+            mkdir /var/log/$PACKAGE
+            chown -R $PACKAGE:adm /var/log/$PACKAGE
+        fi
 
-    if($self->web_server eq 'apache') {
-        $template .= 'if which invoke-rc.d >/dev/null 2>&1; then
-	invoke-rc.d apache restart
-else
-	/etc/init.d/apache restart
-fi
-';
-    } else {
-        $template .= 'if which invoke-rc.d >/dev/null 2>&1; then
-	invoke-rc.d nginx restart
-else
-	/etc/init.d/nginx restart
-fi
-';
-    }
-    $template .= ';;
+        {$webserver_restart}
+    ;;
 
-abort-upgrade|abort-remove|abort-deconfigure)
-;;
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
 
-*)
-    echo "postinst called with unknown argument: $1" >&2
-    exit 1
-;;
+    *)
+        echo "postinst called with unknown argument: $1" >&2
+        exit 1
+    ;;
 esac
 
 # dh_installdeb will replace this with shell code automatically
@@ -346,8 +319,7 @@ esac
 #DEBHELPER#
 
 exit 0
-';
-    } 
+'
 );
 
 has '+postrm_template_default' => (
@@ -455,7 +427,34 @@ around '_generate_file' => sub {
     
     $_[2]->{starman_port} = $self->starman_port;
     $_[2]->{startup_time} = $self->startup_time;
-    $_[2]->{web_server} = $self->web_server;
+
+    if($self->web_server eq 'apache') {
+        $_[2]->{webserver_config_link} = '# Symlink to the apache config for the environment we`re in
+        if [ ! -h /etc/apache2/sites-available/$PACKAGE ]; then
+            ln -s /srv/$PACKAGE/config/apache/$PACKAGE.conf /etc/apache2/sites-available/$PACKAGE
+        fi
+';
+        $_[2]->{webserver_restart} = 'a2enmod proxy proxy_http rewrite
+
+        if which invoke-rc.d >/dev/null 2>&1; then
+            invoke-rc.d apache2 restart
+        else
+            /etc/init.d/apache2 restart
+        fi
+';
+    } else {
+        $_[2]->{webserver_config_link} = '# Symlink to the nginx config for the environment we`re in
+        if [ ! -h /etc/nginx/sites-available/$PACKAGE ]; then
+            ln -s /srv/$PACKAGE/config/nginx/$PACKAGE.conf /etc/nginx/sites-available/$PACKAGE
+        fi
+';
+        $_[2]->{webserver_restart} = 'if which invoke-rc.d >/dev/null 2>&1; then
+            invoke-rc.d nginx restart
+        else
+            /etc/init.d/nginx restart
+        fi
+';
+    }
     $self->$orig(@_);
 };
 
