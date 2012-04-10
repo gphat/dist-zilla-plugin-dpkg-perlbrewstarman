@@ -1,7 +1,11 @@
 package Dist::Zilla::Plugin::Dpkg::PerlbrewStarman;
 use Moose;
 
+use Moose::Util::TypeConstraints;
+
 extends 'Dist::Zilla::Plugin::Dpkg';
+
+enum 'WebServers', [qw(apache nginx)];
 
 #ABSTRACT: Generate dpkg files for your perlbrew-backed, starman-based perl app
 
@@ -247,7 +251,10 @@ perlbrew/* srv/{$package_name}/perlbrew
 );
 
 has '+postinst_template_default' => (
-    default => '#!/bin/sh
+    lazy => 1,
+    default => sub {
+        my $self = shift;
+        my $template = '#!/bin/sh
 # postinst script for {$package_name}
 #
 # see: dh_installdeb(1)
@@ -269,51 +276,68 @@ set -e
 PACKAGE={$package_name}
 
 case "$1" in
-    configure)
+configure)
 
-        # Symlink /etc/$PACKAGE to our package`s config directory
-        if [ ! -e /etc/$PACKAGE ]; then
-            ln -s /srv/$PACKAGE/config /etc/$PACKAGE
-        fi
+    # Symlink /etc/$PACKAGE to our package`s config directory
+    if [ ! -e /etc/$PACKAGE ]; then
+        ln -s /srv/$PACKAGE/config /etc/$PACKAGE
+    fi
+';
 
-        # Symlink to the nginx config for the environment we`re in
-        if [ ! -h /etc/nginx/sites-available/$PACKAGE ]; then
-            ln -s /srv/$PACKAGE/config/nginx/$PACKAGE.conf /etc/nginx/sites-available/$PACKAGE
-        fi
-
-        # Create user if it doesn`t exist.
-        if ! id $PACKAGE > /dev/null 2>&1 ; then
-            adduser --system --home /srv/$PACKAGE --no-create-home \
-                --ingroup nogroup --disabled-password --shell /bin/bash \
-                $PACKAGE
-        fi
-
-        # Setup the perlbrew
-        echo "export PATH=~/perlbrew/bin:$PATH" > /srv/$PACKAGE/.profile
-
-        # Make sure this user owns the directory
-        chown -R $PACKAGE:adm /srv/$PACKAGE
-
-        # Make the log directory
-        if [ ! -e /var/log/$PACKAGE ]; then
-            mkdir /var/log/$PACKAGE
-            chown -R $PACKAGE:adm /var/log/$PACKAGE
-        fi
+    if($self->web_server eq 'apache') {
         
-        if which invoke-rc.d >/dev/null 2>&1; then
-     		invoke-rc.d nginx restart
-     	else
-     		/etc/init.d/nginx restart
-     	fi
-    ;;
+    } else {
+            $template .= '# Symlink to the nginx config for the environment we`re in
+if [ ! -h /etc/nginx/sites-available/$PACKAGE ]; then
+    ln -s /srv/$PACKAGE/config/nginx/$PACKAGE.conf /etc/nginx/sites-available/$PACKAGE
+fi
+';        
+    }
 
-    abort-upgrade|abort-remove|abort-deconfigure)
-    ;;
+    $template .= '# Create user if it doesn`t exist.
+if ! id $PACKAGE > /dev/null 2>&1 ; then
+    adduser --system --home /srv/$PACKAGE --no-create-home \
+        --ingroup nogroup --disabled-password --shell /bin/bash \
+        $PACKAGE
+fi
 
-    *)
-        echo "postinst called with unknown argument: $1" >&2
-        exit 1
-    ;;
+# Setup the perlbrew
+echo "export PATH=~/perlbrew/bin:$PATH" > /srv/$PACKAGE/.profile
+
+# Make sure this user owns the directory
+chown -R $PACKAGE:adm /srv/$PACKAGE
+
+# Make the log directory
+if [ ! -e /var/log/$PACKAGE ]; then
+    mkdir /var/log/$PACKAGE
+    chown -R $PACKAGE:adm /var/log/$PACKAGE
+fi
+';
+
+    if($self->web_server eq 'apache') {
+        $template .= 'if which invoke-rc.d >/dev/null 2>&1; then
+	invoke-rc.d apache restart
+else
+	/etc/init.d/apache restart
+fi
+';
+    } else {
+        $template .= 'if which invoke-rc.d >/dev/null 2>&1; then
+	invoke-rc.d nginx restart
+else
+	/etc/init.d/nginx restart
+fi
+';
+    }
+    $template .= ';;
+
+abort-upgrade|abort-remove|abort-deconfigure)
+;;
+
+*)
+    echo "postinst called with unknown argument: $1" >&2
+    exit 1
+;;
 esac
 
 # dh_installdeb will replace this with shell code automatically
@@ -322,7 +346,8 @@ esac
 #DEBHELPER#
 
 exit 0
-'
+';
+    } 
 );
 
 has '+postrm_template_default' => (
@@ -411,12 +436,26 @@ has 'startup_time' => (
     default => 30
 );
 
+=attr web_server
+
+Set the web server we'll be working with for this package.  Supported values
+are C<apache> and C<nginx>.
+
+=cut
+
+has 'web_server' => (
+    is => 'ro',
+    isa => 'WebServer',
+    required => 1
+);
+
 around '_generate_file' => sub {
     my $orig = shift;
     my $self = shift;
     
     $_[2]->{starman_port} = $self->starman_port;
     $_[2]->{startup_time} = $self->startup_time;
+    $_[2]->{web_server} = $self->web_server;
     $self->$orig(@_);
 };
 
