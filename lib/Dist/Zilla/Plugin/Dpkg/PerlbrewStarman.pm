@@ -335,7 +335,14 @@ case "$1" in
         rm /etc/$PACKAGE
 
         # Remove the nginx config
-        rm /etc/nginx/sites-available/$PACKAGE
+        if [ -h /etc/nginx/sites-available/$PACKAGE ]; then
+            rm /etc/nginx/sites-available/$PACKAGE
+        fi
+
+        # Remove the apache config
+        if [ -h /etc/apache/sites-available/$PACKAGE ]; then
+            rm /etc/apache/sites-available/$PACKAGE
+        fi
 
         # Remove the user
         userdel $PACKAGE || true
