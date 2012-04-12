@@ -349,6 +349,7 @@ case "$1" in
 
         # Remove logs
         rm -rf /var/log/$PACKAGE
+        rm -rf /var/log/apache2/$PACKAGE
 
         # Remove the home directory
         rm -rf /srv/$PACKAGE
@@ -442,7 +443,8 @@ around '_generate_file' => sub {
         fi
 ';
         $_[2]->{webserver_restart} = 'a2enmod proxy proxy_http rewrite
-
+        a2ensite $PACKAGE
+        mkdir -p /var/log/apache2/$PACKAGE
         if which invoke-rc.d >/dev/null 2>&1; then
             invoke-rc.d apache2 restart
         else

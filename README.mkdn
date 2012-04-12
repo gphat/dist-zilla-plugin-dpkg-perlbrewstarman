@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::Dpkg::PerlbrewStarman - Generate dpkg files for your perlbr
 
 # VERSION
 
-version 0.09
+version 0.10
 
 # SYNOPSIS
 
@@ -19,14 +19,14 @@ Starman.  It makes the following assumptions:
 
 - XXX Perlbrew
 - Runs under [Starman](http://search.cpan.org/perldoc?Starman)
-- Starman is fronted by nginx
+- Starman is fronted by nginx or apache
 - It's installed at /srv/$packagename
 - Logs will be placed in /var/log/$packagename
 - psgi file is in script and is named $packagename.psgi
 - Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)
-- Nginx config is in config/nginx/$packagename.conf
+- Nginx config is in config/nginx/$packagename.conf or apache config is at config/apache/$packagename.conf
 - Your app can be preloaded
-- Your app only listens on localhost (nginx handles the rest)
+- Your app only listens on localhost (nginx/apache handles the rest)
 - You want 5 workers
 
 This module provides defaults for the following attribute:
@@ -49,6 +49,11 @@ The port to use for starman.
 
 The amount of time (in seconds) that the init script will wait on startup. Some
 applications may require more than the default amount of time (30 seconds).
+
+## web_server
+
+Set the web server we'll be working with for this package.  Supported values
+are `apache` and `nginx`.
 
 # AUTHOR
 
