@@ -438,8 +438,8 @@ around '_generate_file' => sub {
 
     if($self->web_server eq 'apache') {
         $_[2]->{webserver_config_link} = '# Symlink to the apache config for the environment we`re in
-        if [ ! -h /etc/apache2/sites-available/$PACKAGE ]; then
-            ln -s /srv/$PACKAGE/config/apache/$PACKAGE.conf /etc/apache2/sites-available/$PACKAGE
+        if [ ! -e /etc/apache2/sites-available/$PACKAGE ]; then
+            ln /srv/$PACKAGE/config/apache/$PACKAGE.conf /etc/apache2/sites-available/$PACKAGE
         fi
 ';
         $_[2]->{webserver_restart} = 'a2enmod proxy proxy_http rewrite
