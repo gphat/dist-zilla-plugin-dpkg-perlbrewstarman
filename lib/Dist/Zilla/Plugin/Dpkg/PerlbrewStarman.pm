@@ -340,7 +340,8 @@ case "$1" in
         fi
 
         # Remove the apache config
-        if [ -h /etc/apache/sites-available/$PACKAGE ]; then
+        if [ -e /etc/apache/sites-available/$PACKAGE ]; then
+            rm /etc/apache/sites-enabled/$PACKAGE
             rm /etc/apache/sites-available/$PACKAGE
         fi
 
