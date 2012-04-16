@@ -36,7 +36,7 @@ Starman.  It makes the following assumptions:
 
 =item Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)
 
-=item Nginx config is in config/nginx/$packagename.conf or apache config is at config/apache/$packagename.conf
+=item Nginx config is in config/nginx/$packagename.conf or Apache config is at config/apache/$packagename.conf
 
 =item Your app can be preloaded
 

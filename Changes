@@ -1,6 +1,7 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+  - Add Apache support
 
 0.09 Feb 17 2012
   - Syntax check fix, which makes things restart properly.
