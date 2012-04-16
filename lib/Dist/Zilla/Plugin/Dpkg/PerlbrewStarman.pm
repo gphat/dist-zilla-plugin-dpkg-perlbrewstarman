@@ -340,9 +340,9 @@ case "$1" in
         fi
 
         # Remove the apache config
-        if [ -e /etc/apache/sites-available/$PACKAGE ]; then
-            rm /etc/apache/sites-enabled/$PACKAGE
-            rm /etc/apache/sites-available/$PACKAGE
+        if [ -e /etc/apache2/sites-available/$PACKAGE ]; then
+            rm /etc/apache2/sites-enabled/$PACKAGE
+            rm /etc/apache2/sites-available/$PACKAGE
         fi
 
         # Remove the user
