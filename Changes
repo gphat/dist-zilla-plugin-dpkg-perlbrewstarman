@@ -1,6 +1,7 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+  - Allow "all" as a webserver option (which will setup nginx and apache)
 
 0.10 Apr 16 2012
   - Add Apache support
