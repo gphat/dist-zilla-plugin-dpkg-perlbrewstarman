@@ -24,7 +24,7 @@ Starman.  It makes the following assumptions:
 - Logs will be placed in /var/log/$packagename
 - psgi file is in script and is named $packagename.psgi
 - Config is in config/ and can be found by your app with nothing more than it's HOME variable set. (FOO_BAR_HOME)
-- Nginx config is in config/nginx/$packagename.conf or apache config is at config/apache/$packagename.conf
+- Nginx config is in config/nginx/$packagename.conf or Apache config is at config/apache/$packagename.conf
 - Your app can be preloaded
 - Your app only listens on localhost (nginx/apache handles the rest)
 - You want 5 workers
