@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::Dpkg::PerlbrewStarman - Generate dpkg files for your perlbr
 
 # VERSION
 
-version 0.10
+version 0.11
 
 # SYNOPSIS
 
