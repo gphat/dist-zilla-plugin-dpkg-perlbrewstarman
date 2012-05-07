@@ -286,7 +286,7 @@ case "$1" in
 
         # Create user if it doesn`t exist.
         if ! id $PACKAGE > /dev/null 2>&1 ; then
-            adduser --system --home /srv/$PACKAGE --no-create-home \
+            adduser --system {$uid} --home /srv/$PACKAGE --no-create-home \
                 --ingroup nogroup --disabled-password --shell /bin/bash \
                 $PACKAGE
         fi
