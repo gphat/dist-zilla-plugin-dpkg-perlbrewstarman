@@ -28,6 +28,8 @@ Starman.  It makes the following assumptions:
 
 =item Starman is fronted by nginx or apache
 
+=item It runs as a user called $packagename
+
 =item It's installed at /srv/$packagename
 
 =item Logs will be placed in /var/log/$packagename
@@ -417,6 +419,19 @@ has 'startup_time' => (
     default => 30
 );
 
+=attr uid
+
+The UID of the user we're adding for the package. This is helpful for syncing
+UIDs across multiple installations
+
+=cut
+
+has 'uid' => (
+  is => 'ro',
+  isa => 'Int',
+  predicate => 'has_uid'
+);
+
 =attr web_server
 
 Set the web server we'll be working with for this package.  Supported values
@@ -433,6 +448,10 @@ has 'web_server' => (
 around '_generate_file' => sub {
     my $orig = shift;
     my $self = shift;
+    
+    if($self->has_uid) {
+      $_[2]->{uid} = '--uid '.$self->uid;
+    }
     
     $_[2]->{starman_port} = $self->starman_port;
     $_[2]->{startup_time} = $self->startup_time;
