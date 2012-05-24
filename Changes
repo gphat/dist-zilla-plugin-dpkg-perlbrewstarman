@@ -1,6 +1,8 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+  - Remove the apache/nginx hard link before making a new one so that updates
+    work properly.
 
 0.11 Apr 27 2012
   - Allow "all" as a webserver option (which will setup nginx and apache)
