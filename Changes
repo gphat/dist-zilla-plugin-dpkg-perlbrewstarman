@@ -1,6 +1,7 @@
 Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
+  - Allow UIDs to be provided for created users
   - Remove the apache/nginx hard link before making a new one so that updates
     work properly.
 
