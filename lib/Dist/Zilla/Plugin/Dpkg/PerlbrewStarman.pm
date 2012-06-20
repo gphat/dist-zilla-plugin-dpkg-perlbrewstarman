@@ -334,17 +334,17 @@ PACKAGE={$package_name}
 case "$1" in
     purge)
         # Remove the config symlink
-        rm /etc/$PACKAGE
+        rm -f /etc/$PACKAGE
 
         # Remove the nginx config
         if [ -h /etc/nginx/sites-available/$PACKAGE ]; then
-            rm /etc/nginx/sites-available/$PACKAGE
+            rm -f /etc/nginx/sites-available/$PACKAGE
         fi
 
         # Remove the apache config
         if [ -e /etc/apache2/sites-available/$PACKAGE ]; then
-            rm /etc/apache2/sites-enabled/$PACKAGE
-            rm /etc/apache2/sites-available/$PACKAGE
+            rm -f /etc/apache2/sites-enabled/$PACKAGE
+            rm -f /etc/apache2/sites-available/$PACKAGE
         fi
 
         # Remove the user
