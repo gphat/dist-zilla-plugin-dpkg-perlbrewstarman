@@ -461,7 +461,7 @@ around '_generate_file' => sub {
 
     if(($self->web_server eq 'apache') || ($self->web_server eq 'all')) {
         $_[2]->{webserver_config_link} .= '# Symlink to the apache config for the environment we`re in
-        rm /etc/apache2/sites-available/$PACKAGE
+        rm -f /etc/apache2/sites-available/$PACKAGE
         ln /srv/$PACKAGE/config/apache/$PACKAGE.conf /etc/apache2/sites-available/$PACKAGE
 ';
         $_[2]->{webserver_restart} .= 'a2enmod proxy proxy_http rewrite
@@ -476,7 +476,7 @@ around '_generate_file' => sub {
     }
     if(($self->web_server eq 'nginx') || ($self->web_server eq 'all')) {
         $_[2]->{webserver_config_link} .= '# Symlink to the nginx config for the environment we`re in
-        rm /etc/nginx/sites-available/$PACKAGE
+        rm -f /etc/nginx/sites-available/$PACKAGE
         ln -s /srv/$PACKAGE/config/nginx/$PACKAGE.conf /etc/nginx/sites-available/$PACKAGE
 ';
         $_[2]->{webserver_restart} .= 'if which invoke-rc.d >/dev/null 2>&1; then

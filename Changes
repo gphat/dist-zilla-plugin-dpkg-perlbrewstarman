@@ -2,6 +2,12 @@ Revision history for Dist-Zilla-Plugin-Dpkg-PerlbrewStarman
 
 {{$NEXT}}
 
+0.14 Aug 23 2012
+
+0.14 Aug 23 2012
+  - Fix another instance of rm being called without the -f flag.  This prevents
+    dpkg from failing due to non-existant files.
+
 0.13 Jun 21 2012
   - Always use the -f flag when invoking rm.  This prevents dpkg from failing
     due to non-existant files.
